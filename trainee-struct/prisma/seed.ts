@@ -1,10 +1,10 @@
 /**
  * This script seeds the database with initial data for testing.
- * To run this script, use the command: `npm run db:seed`
+ * To run this script, use the command: `npx prisma db seed`
  *
  * Make sure to define the `db seed` command in your `package.json`:
  * "prisma": {
- * "seed": "tsx prisma/seed.ts"
+ * "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
  * }
  */
 import { PrismaClient } from '@prisma/client';
