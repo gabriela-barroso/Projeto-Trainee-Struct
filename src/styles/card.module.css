@@ -1,0 +1,46 @@
+.card {
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 0.30rem;
+    background-color: #e754b9;
+    width: 300px;
+    height: 450px;
+
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centraliza horizontalmente */
+    text-align: center;  /* centraliza o texto */
+    padding: 1rem;
+}
+
+.imagem {
+  width: 80%;
+  height: auto;
+  border-radius: 0.2rem;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.containerCards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding: 2rem;
+}
+
+.botaoVerMais {
+  background-color: #f19ad5;
+  color: rgb(9, 1, 1);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.verMaisContainer {
+  text-align: center;
+  margin-bottom: 2rem;
+}
