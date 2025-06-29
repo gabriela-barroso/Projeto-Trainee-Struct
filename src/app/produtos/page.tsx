@@ -1,7 +1,7 @@
-/* Esse arquivo serve para rodar o servidor da página de produtos apenas, não é o page.tsx da main */
+/*Página dos produtos (esse page.tsx tem o código da página de produtos*/
 import React from 'react';
-import Navbar from '~/app/produtos/_components/Navbar';
-import { Card } from '~/app/produtos/_components/card';
+import Navbar from './_components/Navbar';
+import { Card } from './_components/card';
 import styles from '~/styles/card.module.css';
 
 export default function Home() {
