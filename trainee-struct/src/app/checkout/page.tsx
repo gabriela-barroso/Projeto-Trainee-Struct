@@ -64,26 +64,33 @@ const ProductItem = ({ item, onUpdateQuantity, onRemove }) => (
 
 export default function CheckoutPageWithDB() {
     // State for cart data, loading, and errors
-    const [cart, setCart] = useState({ items: [], subtotal: 0, total: 0 });
+    const [cart, setCart] = useState<{ items: CartItem[], subtotal: number, total: number }>({ items: [], subtotal: 0, total: 0 });
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     // Function to fetch cart data from our API
     const fetchCart = async () => {
         setIsLoading(true);
         setError(null);
+
+        
         try {
             // In a real app, this would be '/api/cart/get'
-            // We'll simulate a fetch call here for demonstration.
-            // const response = await fetch('/api/cart/get');
-            // if (!response.ok) {
-            //     const errorData = await response.json();
-            //     throw new Error(errorData.message || 'Failed to fetch cart');
-            // }
-            // const data = await response.json();
             
+            /*
+            const response = await fetch('/api/cart/get');
+             if (!response.ok) {
+                 const errorData = await response.json();
+                 throw new Error(errorData.message || 'Failed to fetch cart');
+             }
+             const data = await response.json();
+            */
+
+            // We'll simulate a fetch call here for demonstration.
             // --- MOCK DATA FOR DEMO ---
             await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
+
+            
             const data = {
                 items: [
                     { id: 1, name: 'Caneta Rosa (from DB)', price: 10.00, quantity: 1, image: 'https://placehold.co/64x64/EAEAEA/333?text=Pen' },
@@ -92,6 +99,8 @@ export default function CheckoutPageWithDB() {
                 subtotal: 40.00,
                 total: 40.00,
             };
+            
+
             // --- END MOCK DATA ---
             
             setCart(data);
@@ -133,6 +142,48 @@ export default function CheckoutPageWithDB() {
             total: newSubtotal
         });
     };
+
+/*
+// Utiliza a remove e update no db para o carrinho
+    const handleUpdateQuantity = async (productId: number, newQuantity: number) => {
+        try {
+            const response = await fetch('/api/cart/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    produtoId: productId, 
+                    quantidade: newQuantity 
+                }),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to update quantity");
+            }
+            // Refresh the cart data from the server to ensure consistency
+            await fetchCart();
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+
+    const handleRemoveItem = async (productId: number) => {
+        try {
+            const response = await fetch('/api/cart/remove', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ produtoId: productId }),
+            });
+             if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to remove item");
+            }
+            // Refresh the cart data from the server
+            await fetchCart();
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+*/
 
     if (error) {
         return <div className="text-red-500 text-center p-8">{error}</div>;
