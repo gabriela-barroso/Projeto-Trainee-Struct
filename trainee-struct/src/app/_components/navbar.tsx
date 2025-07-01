@@ -12,7 +12,7 @@ export function Navbar() {
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
             <h1 className="text-[#1F2937] text-sm sm:text-md md:text-lg lg:text-xl font-extrabold">Papelaria dos Cria</h1>
 
-            <div className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px]">
+            <div className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px] xl:max-w-[400px]">
                 <input type="text"  placeholder="Buscar produtos..." className="w-full border border-gray-300 rounded-lg text-gray-500 text-sm pl-10 pr-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-200"/>
 
                 <div className="absolute left-3 top-1/2 -translate-y-1/2">
@@ -21,25 +21,27 @@ export function Navbar() {
             </div>
 
             {/* Botão para Menu Hamburguer */}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden cursor-pointer border-t-[3px] border-t-solid border-t-[#DDA0DD] 
-            before:content-[''] before:block before:w-[30px] before:h-[3px] before:bg-[#DDA0DD] before:mt-[5px]
-            after:content-[''] after:block after:w-[30px] after:h-[3px] after:bg-[#DDA0DD] after:mt-[5px]
-            "></button>
+            <button onClick={() => setMenuOpen(!menuOpen)} 
+            className="md:hidden flex flex-col justify-between items-center w-[30px] h-5 cursor-pointer group active:scale-[0.97] transition-all duration-300 ease-in-out">
+                <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-300 ease-in-out"></span>
+                <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-150 ease-in-out"></span>
+                <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-50 ease-in-out"></span>
+            </button>
 
 
             {/* Estilização de links para telas maiores (sem menu hamburguer)*/}
             <ul className="hidden md:flex md:justify-center md:items-center md:flex-wrap md:gap-3 lg:gap-8">
                 <li>
-                    <a href="#" className="flex justify-center items-center bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-base font-bold min-h-[40px] lg:min-h-[45px] px-3 lg:px-5 rounded-lg">Produtos</a>
+                    <a href="#" className="flex justify-center items-center bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5  rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out">Produtos</a>
                 </li>
                 <li className="">
-                    <a href="#" className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-base font-bold min-h-[40px] lg:min-h-[45px] px-3 lg:px-5 rounded-lg">
+                    <a href="#" className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out">
                         <span><UserIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/></span>
                         Login
                     </a>
                 </li>
                 <li className="relative">
-                    <a href="#" className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-base font-bold min-h-[40px] lg:min-h-[45px] px-3 lg:px-5 rounded-lg">
+                    <a href="#" className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5  rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out">
                         <span><CartIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/></span>
                         Carrinho
                     </a>
@@ -49,16 +51,16 @@ export function Navbar() {
 
             {/* Estilização de links para telas menores (aparece quando o hamburguer é clicado) */}
             {menuOpen && (
-                <div className="md:hidden absolute top-full left-0 w-full bg-white z-50 shadow-sm">
+                <div className="md:hidden absolute top-full left-0 w-full bg-white z-50 shadow-sm rounded-xl">
                     <ul className="flex flex-col items-center py-4 gap-4">
                         <li>
-                            <a href="#" className="text-[#5A5C8F] font-bold">Produtos</a>
+                            <a href="#" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">Produtos</a>
                         </li>
                         <li>
-                            <a href="#" className="text-[#5A5C8F] font-bold">Login</a>
+                            <a href="#" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">Login</a>
                         </li>
                         <li>
-                            <a href="#" className="text-[#5A5C8F] font-bold">Carrinho</a>
+                            <a href="#" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">Carrinho</a>
                         </li>
                     </ul>
                 </div>
