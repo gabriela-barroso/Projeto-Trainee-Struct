@@ -6,8 +6,10 @@ import { SearchIcon, UserIcon, CartIcon } from "./icons";
 export function Navbar() {
     const [countCarrinho, setCountCarrinho] = useState(0);
     // Fazer lógica para incremento do contador do carrinho aqui
+
+    const [menuOpen, setMenuOpen] = useState(false);
     return (
-        <nav className="flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
+        <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
             <h1 className="text-[#1F2937] text-sm sm:text-md md:text-lg lg:text-xl font-extrabold">Papelaria dos Cria</h1>
 
             <div className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px]">
@@ -18,13 +20,15 @@ export function Navbar() {
                 </div>
             </div>
 
-            <button className="md:hidden cursor-pointer border-t-[3px] border-t-solid border-t-[#DDA0DD] 
+            {/* Botão para Menu Hamburguer */}
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden cursor-pointer border-t-[3px] border-t-solid border-t-[#DDA0DD] 
             before:content-[''] before:block before:w-[30px] before:h-[3px] before:bg-[#DDA0DD] before:mt-[5px]
-            after:content-[''] after:block after:w-[]30px after:h-[3px] after:bg-[#DDA0DD] after:mt-[5px]
+            after:content-[''] after:block after:w-[30px] after:h-[3px] after:bg-[#DDA0DD] after:mt-[5px]
             "></button>
 
 
-            <ul className="flex justify-center items-center flex-wrap gap-3 lg:gap-8">
+            {/* Estilização de links para telas maiores (sem menu hamburguer)*/}
+            <ul className="hidden md:flex md:justify-center md:items-center md:flex-wrap md:gap-3 lg:gap-8">
                 <li>
                     <a href="#" className="flex justify-center items-center bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-base font-bold min-h-[40px] lg:min-h-[45px] px-3 lg:px-5 rounded-lg">Produtos</a>
                 </li>
@@ -42,16 +46,23 @@ export function Navbar() {
                     <span className="absolute -top-2 -right-3 w-6 h-6 lg:w-7 lg:h-7 flex justify-center items-center rounded-full bg-[#EF4444] text-[#5A5C8F] text-lg font-bold">{countCarrinho}</span> {/*ESTILIZAR CONTADOR DO CARRINHO AQUI*/}
                 </li>
             </ul>
+
+            {/* Estilização de links para telas menores (aparece quando o hamburguer é clicado) */}
+            {menuOpen && (
+                <div className="md:hidden absolute top-full left-0 w-full bg-white z-50 shadow-sm">
+                    <ul className="flex flex-col items-center py-4 gap-4">
+                        <li>
+                            <a href="#" className="text-[#5A5C8F] font-bold">Produtos</a>
+                        </li>
+                        <li>
+                            <a href="#" className="text-[#5A5C8F] font-bold">Login</a>
+                        </li>
+                        <li>
+                            <a href="#" className="text-[#5A5C8F] font-bold">Carrinho</a>
+                        </li>
+                    </ul>
+                </div>
+            )}
         </nav>
     );
 }
-
-/**
-<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.25 15.75V14.25C14.25 13.4544 13.9339 12.6913 13.3713 12.1287C12.8087 11.5661 12.0456 11.25 11.25 11.25H6.75C5.95435 11.25 5.19129 11.5661 4.62868 12.1287C4.06607 12.6913 3.75 13.4544 3.75 14.25V15.75" stroke="#5A5C8F" stroke-width="1.575" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M9 8.24982C10.6569 8.24982 12 6.90667 12 5.24982C12 3.59296 10.6569 2.24982 9 2.24982C7.34315 2.24982 6 3.59296 6 5.24982C6 6.90667 7.34315 8.24982 9 8.24982Z" stroke="#5A5C8F" stroke-width="1.575" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-</svg>
-
- */
