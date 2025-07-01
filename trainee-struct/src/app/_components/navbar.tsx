@@ -51,7 +51,7 @@ export function Navbar() {
 
             {/* Estilização de links para telas menores (aparece quando o hamburguer é clicado) */}
             {menuOpen && (
-                <div className="md:hidden absolute top-full left-0 w-full bg-white z-50 shadow-sm rounded-xl">
+                <div className="md:hidden absolute top-full left-0 w-full bg-white z-50 shadow-sm rounded-b-xl">
                     <ul className="flex flex-col items-center py-4 gap-4">
                         <li>
                             <a href="#" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">Produtos</a>
