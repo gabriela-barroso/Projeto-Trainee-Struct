@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
 
@@ -10,7 +11,7 @@ export function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
-            <h1 className="text-[#1F2937] text-sm sm:text-md md:text-lg lg:text-xl font-extrabold">Papelaria dos Cria</h1>
+            <Link href="/" className="text-[#1F2937] text-sm sm:text-md md:text-lg lg:text-xl font-extrabold hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out">Papelaria dos Cria</Link>
 
             <div className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px] xl:max-w-[400px]">
                 <input type="text"  placeholder="Buscar produtos..." className="w-full border border-gray-300 rounded-lg text-gray-500 text-sm pl-10 pr-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-200"/>
