@@ -1,12 +1,3 @@
-/**
- * This script seeds the database with initial data for testing.
- * To run this script, use the command: `npx prisma db seed`
- *
- * Make sure to define the `db seed` command in your `package.json`:
- * "prisma": {
- * "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
- * }
- */
 import { PrismaClient } from '@prisma/client';
 
 // Instantiate Prisma Client
@@ -15,16 +6,29 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('Start seeding...');
 
-  // --- Create a sample User ---
-  const user = await prisma.usuario.create({
+  // --- Create a sample User FIRST ---
+  const user = await prisma.user.create({
     data: {
-      nome: 'Usuário de Teste',
+      name: 'Usuário de Teste',
       email: 'teste@example.com',
       image: 'https://placehold.co/100x100/E8F4FD/374151?text=User',
-      // The session time will default to now()
+      emailVerified: new Date(),
     },
   });
   console.log(`Created user with id: ${user.id}`);
+
+  // --- Create a sample Account and connect it to the created User ---
+  const account = await prisma.account.create({
+    data: {
+      userId: user.id, 
+      type: 'oauth',   
+      provider: 'google',
+      providerAccountId: "1234567890",
+
+    },
+  });
+  console.log(`Created Account with id: ${account.id}`);
+
 
   // --- Create sample Products ---
   const product1 = await prisma.produto.create({
@@ -46,28 +50,28 @@ async function main() {
     },
   });
   console.log(`Created product with id: ${product2.id}`);
-  
+
   // --- Populate the Cart for the sample User ---
   // Add 1 'Caneta Rosa' to the user's cart
   const cartItem1 = await prisma.carrinho.create({
       data: {
-          usuarioId: user.id,
+          usuarioId: user.id,      // Use the actual ID of the created user
           produtoId: product1.id,
           quantidade: 1,
       }
   });
   console.log(`Created cart item with id: ${cartItem1.id}`);
-  
+
   // Add 2 'Caderno Floral' to the user's cart
   const cartItem2 = await prisma.carrinho.create({
       data: {
-          usuarioId: user.id,
+          usuarioId: user.id,      // Use the actual ID of the created user
           produtoId: product2.id,
           quantidade: 2,
       }
   });
   console.log(`Created cart item with id: ${cartItem2.id}`);
-  
+
   console.log('Seeding finished.');
 }
 
