@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { ClosedEyeIcon, EmailIcon, GoogleIcon, OpenEyeIcon, PasswordIcon } from "../_components/icons";
 import { Navbar } from "../_components/navbar";
+import Link from "next/link";
 
 export default function Login() {
     const [seePassword, setSeePassword] = useState(false);
@@ -101,10 +102,12 @@ export default function Login() {
                     </button>
 
                     <p className="mt-3 sm:mt-4 md:mt-6 text-gray-600 text-sm md:text-base">
-                        Não tem uma conta? 
-                        <a href="#" className="text-[#9333EA] text-[0.87rem] md:text-[0.95rem] font-[600] hover:text-[#52118e]">
-                            Cadastre-se
-                        </a>
+                        Não tem uma conta? <Link 
+                                                href="#" 
+                                                className="text-[#9333EA] text-[0.87rem] md:text-[0.95rem] font-[600] hover:text-[#52118e]"
+                                            >
+                                                Cadastre-se
+                                            </Link>
                     </p>
                 </section>   
             </main>
