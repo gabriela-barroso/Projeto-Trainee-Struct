@@ -13,8 +13,8 @@ export default function Login() {
                 <Navbar/>
             </header>
             <main className="bg-[#FFE0EE] min-h-screen flex justify-center">
-                <section className="flex flex-col justify-center items-center bg-white w-[350px] h-[400px] sm:w-[400px] sm:h-[450px] md:w-[450px] md:h-[535px] rounded-2xl shadow-lg my-8">
-                    <form className="flex flex-col items-center w-full max-w-[300px] sm:max-w-[350px] md:max-w-sm gap-[10px] sm:gap-[20px] md:gap-[30px] ">
+                <section className="flex flex-col justify-center items-center bg-white w-[350px] h-[400px] sm:w-[400px] sm:h-[450px] md:w-[450px] md:h-[535px] rounded-2xl shadow-lg my-8 mx-2">
+                    <form className="flex flex-col items-center w-full max-w-[320px] sm:max-w-[370px] md:max-w-[404px] gap-[10px] sm:gap-[20px] md:gap-[30px] px-2.5">
 
                         {/* Campo de email */}
                         <div className="flex flex-col w-full gap-2">
@@ -85,7 +85,7 @@ export default function Login() {
                         </button>
                     </form>
 
-                    <div className="flex items-center justify-center gap-4 w-full max-w-[300px] sm:max-w-[350px] md:max-w-sm my-2 sm:my-3.5 md:my-5">
+                    <div className="flex items-center justify-center gap-4 w-full max-w-[320px] sm:max-w-[370px] md:max-w-[404px] my-2 sm:my-3.5 md:my-5 px-2.5">
                         <hr className="grow border-t-gray-300" />
                         <span className=" text-gray-500">
                             ou
@@ -93,13 +93,15 @@ export default function Login() {
                         <hr className="grow border-t-gray-300" />
                     </div>
 
-                    <button 
-                        type="button" 
-                        className="flex justify-center items-center border border-gray-300 rounded-xl w-full max-w-[300px] sm:max-w-[350px] md:max-w-sm max-h-[48px] py-2 sm:py-2.5 md:py-3 text-sm text-gray-800 font-medium md:font-bold cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
-                    >
-                        <GoogleIcon className="mr-2"/> 
-                        Continuar com Google
-                    </button>
+                    <div className="flex justify-center items-center w-full max-w-[320px] sm:max-w-[370px] md:max-w-[404px] px-2.5">
+                        <button
+                            type="button"
+                            className="flex justify-center items-center border border-gray-300 rounded-xl w-full max-h-[48px] py-2 sm:py-2.5 md:py-3 text-sm text-gray-800 font-medium md:font-bold cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
+                        >
+                            <GoogleIcon className="mr-2"/>
+                            Continuar com Google
+                        </button>
+                    </div>
 
                     <p className="mt-3 sm:mt-4 md:mt-6 text-gray-600 text-sm md:text-base">
                         Não tem uma conta? <Link 
