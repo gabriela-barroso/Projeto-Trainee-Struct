@@ -7,7 +7,7 @@ export default function Admin() {
                 <Navbar/>
             </header>
             <main className="h-screen flex justify-center bg-[#FFE0EE]">
-                <section className="flex flex-col justify-center items-center w-full max-w-[900px] h-[590px] sm:h-[550px] mx-2 sm:mx-5 mt-8 bg-white rounded-lg shadow-md">
+                <section className="flex flex-col justify-center items-center w-full max-w-[900px] h-[590px] sm:h-[550px] mx-2 sm:mx-5 my-8 bg-white rounded-lg shadow-md">
                     <h1 className="font-bold text-[1.3rem] sm:text-[1.5rem] md:text-[1.8rem] px-2 text-[#1F2937]">
                         Painel Administrativo
                     </h1>
@@ -33,7 +33,9 @@ export default function Admin() {
                                     Valor (R$) *
                                 </label>
                                 <input 
-                                    type="doble" 
+                                    type="number" 
+                                    min={0}
+                                    step={0.01}
                                     id="valorProduto" 
                                     required 
                                     className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
