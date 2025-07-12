@@ -111,8 +111,8 @@ export default function CheckoutPageStatic() {
   // This is what the component will actually render to the screen.
   // It uses HTML-like syntax and Tailwind CSS classes for styling.
   return (
-    <div className="bg-gray-800 min-h-screen p-4 sm:p-8 flex justify-center items-center font-sans">
-      <div className="w-full max-w-4xl bg-[#F0F8FF] rounded-lg shadow-2xl overflow-hidden">
+    <div className="bg-gray-800 min-h-screen  flex justify-center items-top font-sans">
+      <div className="w-full bg-[#F0F8FF] rounded-lg shadow-2xl overflow-hidden">
         {/* Header Section */}
         <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
             <a href="/" className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 bg-gradient-to-r from-purple-300 to-blue-300 rounded-md hover:opacity-90">
