@@ -81,8 +81,9 @@ model Produto {
   id          Int      @id @default(autoincrement())
   nome        String
   preco       Float
-  descricao   String? // Optional field
-  imagem      String
+  descricao   String
+  especificacoes String? // Optional field
+  imagem      String? // Optional field
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
