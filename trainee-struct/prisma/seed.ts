@@ -36,6 +36,7 @@ async function main() {
       nome: 'Caneta Rosa',
       preco: 10.0,
       descricao: 'Uma caneta esferográfica de tinta rosa.',
+      especificacoes: 'Marca bic, ponta fina...',
       imagem: 'https://placehold.co/64x64/EAEAEA/333?text=Pen',
     },
   });
@@ -46,6 +47,7 @@ async function main() {
       nome: 'Caderno Floral',
       preco: 15.0,
       descricao: 'Caderno de 96 folhas com uma bela capa floral.',
+      especificacoes: 'Marca tilibra, capa dura...',
       imagem: 'https://placehold.co/64x64/EAEAEA/333?text=Notebook',
     },
   });
