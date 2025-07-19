@@ -1,6 +1,31 @@
+'use client'
+
+import { api } from "@/trpc/react";
 import { Navbar } from "../_components/navbar";
+import { useState } from "react";
 
 export default function Admin() {
+    const createProduto = api.produto.create.useMutation();
+
+    const [nomeProduto, setNomeProduto] = useState('');
+    const [valorProduto, setValorProduto] = useState('');
+    const [imagemProduto, setImagemProduto] = useState('');
+    const [descricaoProduto, setDescricaoProduto] = useState('');
+    const [especificacaoProduto, setEspecificacaoProduto] = useState('');
+
+    const handleSubmit = () => {
+        if (!nomeProduto || !valorProduto || !descricaoProduto)
+            return;
+
+        createProduto.mutate({
+            nome: nomeProduto,
+            preco: Number(valorProduto),
+            imagem: imagemProduto || undefined,
+            descricao: descricaoProduto,
+            especificacoes: especificacaoProduto || undefined,
+        });
+    };
+
     return(
         <>
             <header className="bg-white">
@@ -14,7 +39,13 @@ export default function Admin() {
                     <p className="text-[#4b5563] text-[0.8rem] sm:text-sm md:text-base mb-7">
                         Adicionar Novo Produto
                     </p>
-                    <form className="flex flex-col justify-center gap-5 w-full max-w-[890px] px-2.5 sm:px-5 text-[#374151] text-[0.8rem] sm:text-sm md:text-[0.9rem] font-bold">
+                    <form 
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSubmit();
+                        }}
+                        className="flex flex-col justify-center gap-5 w-full max-w-[890px] px-2.5 sm:px-5 text-[#374151] text-[0.8rem] sm:text-sm md:text-[0.9rem] font-bold"
+                    >
                         <div className="flex flex-col sm:flex-row sm: gap-4 w-full">
                             <div className="flex-1 flex flex-col gap-2">
                                 <label htmlFor="nomeProduto">
@@ -24,6 +55,8 @@ export default function Admin() {
                                     type="text"
                                     id="nomeProduto" 
                                     required 
+                                    value={nomeProduto}
+                                    onChange={(e) => setNomeProduto(e.target.value)}
                                     className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
                                 />
                             </div>
@@ -38,6 +71,8 @@ export default function Admin() {
                                     step={0.01}
                                     id="valorProduto" 
                                     required 
+                                    value={valorProduto}
+                                    onChange={(e) => setValorProduto(e.target.value)}
                                     className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200 appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                             </div>
@@ -50,6 +85,8 @@ export default function Admin() {
                             <input 
                                 type="url" 
                                 id="urlImagem" 
+                                value={imagemProduto}
+                                onChange={(e) => setImagemProduto(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
                             />
                         </div>
@@ -62,6 +99,8 @@ export default function Admin() {
                                 type="text" 
                                 id="descricao" 
                                 required 
+                                value={descricaoProduto}
+                                onChange={(e) => setDescricaoProduto(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
                             />
                         </div>
@@ -73,6 +112,8 @@ export default function Admin() {
                             <input 
                                 type="text" 
                                 id="especificacoes" 
+                                value={especificacaoProduto}
+                                onChange={(e) => setEspecificacaoProduto(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg text-gray-600 text-sm py-[7px] sm:py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
                             />
                         </div>
