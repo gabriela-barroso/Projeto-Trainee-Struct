@@ -3,9 +3,19 @@
 import { api } from "@/trpc/react";
 import { Navbar } from "../_components/navbar";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Admin() {
-    const createProduto = api.produto.create.useMutation();
+    const createProduto = api.produto.create.useMutation({
+        onSuccess: () => {
+            setNomeProduto('');
+            setValorProduto('');
+            setImagemProduto('');
+            setDescricaoProduto('');
+            setEspecificacaoProduto('');
+            toast.success('Produto adicionado!');
+        },
+    });
 
     const [nomeProduto, setNomeProduto] = useState('');
     const [valorProduto, setValorProduto] = useState('');
@@ -41,7 +51,7 @@ export default function Admin() {
                     </p>
                     <form 
                         onSubmit={(e) => {
-                            e.preventDefault();
+                            e.preventDefault();  // Necessário para a página não ser carregada ao submeter o form
                             handleSubmit();
                         }}
                         className="flex flex-col justify-center gap-5 w-full max-w-[890px] px-2.5 sm:px-5 text-[#374151] text-[0.8rem] sm:text-sm md:text-[0.9rem] font-bold"
