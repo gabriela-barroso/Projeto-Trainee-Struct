@@ -2,8 +2,11 @@
 
 import { api } from "@/trpc/react";
 import { Navbar } from "../_components/navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+// import { redirect } from "next/dist/server/api-utils";
 
 export default function Admin() {
     const createProduto = api.produto.create.useMutation({
@@ -16,13 +19,13 @@ export default function Admin() {
             toast.success('Produto adicionado!');
         },
     });
-
+    
     const [nomeProduto, setNomeProduto] = useState('');
     const [valorProduto, setValorProduto] = useState('');
     const [imagemProduto, setImagemProduto] = useState('');
     const [descricaoProduto, setDescricaoProduto] = useState('');
     const [especificacaoProduto, setEspecificacaoProduto] = useState('');
-
+    
     const handleSubmit = () => {
         if (!nomeProduto || !valorProduto || !descricaoProduto)
             return;
@@ -35,12 +38,34 @@ export default function Admin() {
             especificacoes: especificacaoProduto || undefined,
         });
     };
+    const session = useSession();
+    const router = useRouter();
+    // console.log(session.data)
 
+    useEffect(() => {
+        if (session.status === 'loading') return;
+
+        if (session.status === 'unauthenticated') {
+            router.push('/unauthorized');
+        }
+
+        if (!session || session.data?.user.role !== 'ADMIN') {
+            router.push('/unauthorized');
+        }
+
+    }, [session.status, session.data, router]);
+
+    if (session.status === 'loading' || session.status === 'unauthenticated' || session.data?.user.role !== "ADMIN") {
+        return null;
+    }
+    
+    
     return(
         <>
             <header className="bg-white">
                 <Navbar/>
             </header>
+
             <main className="h-screen flex justify-center bg-[#FFE0EE]">
                 <section className="flex flex-col justify-center items-center w-full max-w-[900px] h-[590px] sm:h-[550px] mx-2 sm:mx-5 my-8 bg-white rounded-lg shadow-md">
                     <h1 className="font-bold text-[1.3rem] sm:text-[1.5rem] md:text-[1.8rem] px-2 text-[#1F2937]">
