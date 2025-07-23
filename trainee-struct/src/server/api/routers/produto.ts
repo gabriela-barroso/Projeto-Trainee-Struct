@@ -57,6 +57,15 @@ export const produtoRouter = createTRPCRouter({
                 especificacoes: input.especificacoes
             }
         })
-    })
+    }),
+
+    getAll: publicProcedure
+    .query(async ({ctx}) => {
+        const produtos = await ctx.db.produto.findMany ({
+            orderBy: { createdAt: "desc" },
+        });
+
+        return produtos;
+    }),
 
 });
