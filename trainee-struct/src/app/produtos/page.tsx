@@ -18,10 +18,12 @@ export default function Produtos () {
             <Navbar/>
         </header>
 
-        <main className="flex flex-col items-center justify-center bg-[#FFE0EE] h-screen">
-            <h1>Catálogo de Produtos</h1>
+        <main className="flex flex-col items-center bg-[#FFE0EE] h-full">
+            <h1 className="text-3xl text-[#0F172A] font-bold mt-7 mb-4">Catálogo de Produtos</h1>
 
-            <section className="flex items-center justify-between w-full max-w-[1000px] flex-wrap">
+            <p className="text-[#374151] my-3">Descubra nossa seleção premium de produtos de papelaria</p>
+
+            <section className="flex items-center justify-center gap-10 w-full max-w-[1000px] flex-wrap">
                 {produtos.map((produto) => (
                     <CardProduto
                         imagemURL={produto.imagem}
