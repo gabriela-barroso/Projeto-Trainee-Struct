@@ -26,13 +26,19 @@ export function CardProduto({imagemURL, nome, preco} : Props) {
                     />
                 </div>
                 <div className="flex flex-col max-w-[120px] sm:max-w-[200px] lg:max-w-[250px] mx-auto gap-2 mt-3">
-                    <p className="text-[#1F2937] text-sm sm:text-lg lg:text-xl font-bold truncate">{nome}</p>
-                    <p className="text-[#4B5563] text-sm sm:text-lg lg:text-xl font-bold truncate">R$ {precoFormatado}</p>
+                    <p className="text-[#1F2937] text-sm sm:text-lg lg:text-xl font-bold truncate">
+                        {nome}
+                    </p>
+                    <p className="text-[#4B5563] text-sm sm:text-lg lg:text-xl font-bold truncate">
+                        R$ {precoFormatado}
+                    </p>
                 </div>
             </Link>
             
 
-            <button className="bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] w-full max-w-[120px] sm:max-w-[200px] lg:max-w-[250px] h-[35px] rounded-lg text-[#696a9a] text-sm sm:text-lg lg:text-xl font-bold cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">Comprar</button>
+            <button className="bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] w-full max-w-[120px] sm:max-w-[200px] lg:max-w-[250px] h-[35px] rounded-lg text-[#696a9a] text-sm sm:text-lg lg:text-xl font-bold cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">
+                Comprar
+            </button>
 
         </div>
     )
