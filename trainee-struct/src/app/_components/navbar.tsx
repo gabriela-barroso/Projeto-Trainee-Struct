@@ -15,7 +15,7 @@ export function Navbar() {
     const router = useRouter();
     const handleSubmit = () => {
         if (!pesquisa.trim()) return;
-        router.push(`/pesquisaProdutos?pesquisa=${pesquisa}`);
+        router.push(`/pesquisaProdutos?pesquisa=${pesquisa.trim()}`);
     }
 
     return (
