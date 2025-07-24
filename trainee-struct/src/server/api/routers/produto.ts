@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
+import type { Produto } from "@prisma/client";
 
 export const produtoRouter = createTRPCRouter({
     create: publicProcedure
@@ -61,9 +62,23 @@ export const produtoRouter = createTRPCRouter({
 
     getAll: publicProcedure
     .query(async ({ctx}) => {
-        const produtos = await ctx.db.produto.findMany ({
+        const produtos = await ctx.db.produto.findMany({
             orderBy: { createdAt: "desc" },
         });
+
+        return produtos;
+    }),
+
+    getSearch: publicProcedure  // OBS: Por algum motivo, não consegui usar o "mode: 'insensitive'" para a consulta dos nome, por isso usei o queryRaw
+    .input(z.object({
+        nome: z.string(),
+    }))
+    .query(async ({input, ctx}) => {
+        const produtos = await ctx.db.$queryRaw<Produto[]>`
+            SELECT * FROM produto
+            WHERE (LOWER(nome) LIKE LOWER(${'%' + input.nome + '%'})) OR (LOWER(descricao) LIKE LOWER(${'%' + input.nome + '%'}))
+            ORDER BY nome ASC
+        `;
 
         return produtos;
     }),

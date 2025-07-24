@@ -1,14 +1,17 @@
 'use client';
 
-import { api } from "@/trpc/react";
-import { CardProduto } from "../_components/cardProduto";
-import { Navbar } from "../_components/navbar";
 import { useState } from "react";
+import { CardProduto } from "../_components/cardProduto";
 import { NotFound } from "../_components/icons";
+import { Navbar } from "../_components/navbar";
+import { api } from "@/trpc/react";
+import { useSearchParams } from "next/navigation";
 
+export default function PesquisaProdutos() {
+    const searchParams = useSearchParams()
+    const pesquisa = searchParams.get('pesquisa') ?? '';
 
-export default function Produtos () {
-    const {data: produtos, isLoading} = api.produto.getAll.useQuery();
+    const {data: produtos, isLoading} = api.produto.getSearch.useQuery({nome: pesquisa})
     const [cardsVisiveis, setCardsVisiveis] = useState(6);
 
     const totalProdutos = !produtos ? 0 : produtos.length;

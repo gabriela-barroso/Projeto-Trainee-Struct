@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
+import { useRouter } from "next/navigation";
 
 
 export function Navbar() {
@@ -9,6 +10,14 @@ export function Navbar() {
     // Fazer lógica para incremento do contador do carrinho aqui
 
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const [pesquisa, setPesquisa] = useState('');
+    const router = useRouter();
+    const handleSubmit = () => {
+        if (!pesquisa.trim()) return;
+        router.push(`/pesquisaProdutos?pesquisa=${pesquisa}`);
+    }
+
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
             <Link 
@@ -18,17 +27,28 @@ export function Navbar() {
                 Papelaria dos Cria
             </Link>
 
-            <div className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px] xl:max-w-[400px]">
+            <form 
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit();
+                }}
+                className="relative w-full max-w-[175px] sm:max-w-[270px] md:max-w-[250px] lg:max-w-[350px] xl:max-w-[400px]"
+            >
                 <input 
                     type="text"  
                     placeholder="Buscar produtos..." 
+                    value={pesquisa}
+                    onChange={(e) => setPesquisa(e.target.value)}
                     className="w-full border border-gray-300 rounded-lg text-gray-500 text-sm pl-10 pr-4 py-2 focus:outline-none focus:ring-1 focus:ring-gray-200"
                 />
 
-                <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                    <SearchIcon className="w-5 h-5 text-gray-400"/>
-                </div>
-            </div>
+                <button 
+                    type="submit"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out"
+                >
+                    <SearchIcon className="w-5 h-5 text-gray-400 hover:text-[#1F2937]"/>
+                </button>
+            </form>
 
             {/* Botão para Menu Hamburguer */}
             <button 
