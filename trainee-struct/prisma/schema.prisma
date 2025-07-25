@@ -89,7 +89,7 @@ model Produto {
   preco       Float
   descricao   String
   especificacoes String? // Optional field
-  imagem      String @default("https://placehold.co/200x200?text=Sem+Imagem")
+  imagem      String @default("/imagens/sem_imagem.jpg")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
