@@ -97,7 +97,7 @@ export default function Login() {
                     <div className="flex justify-center items-center w-full max-w-[320px] sm:max-w-[370px] md:max-w-[404px] px-2.5">
                         <button
                             type="button"
-                            onClick={() => signIn("google")}
+                            onClick={() => signIn("google", {callbackUrl: '/'})}
                             className="flex justify-center items-center border border-gray-300 rounded-xl w-full max-h-[48px] py-2 sm:py-2.5 md:py-3 text-sm text-gray-800 font-medium md:font-bold cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
                         >
                             <GoogleIcon className="mr-2"/>
