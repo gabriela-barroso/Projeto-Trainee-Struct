@@ -9,22 +9,28 @@ import { useRouter } from "next/navigation";
 // import { redirect } from "next/dist/server/api-utils";
 
 export default function Admin() {
-    const createProduto = api.produto.create.useMutation({
-        onSuccess: () => {
-            setNomeProduto('');
-            setValorProduto('');
-            setImagemProduto('');
-            setDescricaoProduto('');
-            setEspecificacaoProduto('');
-            toast.success('Produto adicionado!');
-        },
-    });
-    
     const [nomeProduto, setNomeProduto] = useState('');
     const [valorProduto, setValorProduto] = useState('');
     const [imagemProduto, setImagemProduto] = useState('');
     const [descricaoProduto, setDescricaoProduto] = useState('');
     const [especificacaoProduto, setEspecificacaoProduto] = useState('');
+
+    const reset = () => {
+        setNomeProduto('');
+        setValorProduto('');
+        setImagemProduto('');
+        setDescricaoProduto('');
+        setEspecificacaoProduto('');
+    }
+
+    const createProduto = api.produto.create.useMutation({
+        onSuccess: () => {
+            reset();
+            toast.success('Produto adicionado!');
+        },
+    });
+    
+
     
     const handleSubmit = () => {
         if (!nomeProduto || !valorProduto || !descricaoProduto)
@@ -162,7 +168,10 @@ export default function Admin() {
                             </button>
 
                             <button 
-                                type="reset" 
+                                type="button"
+                                onClick={() => {
+                                    reset();
+                                }} 
                                 className="flex-1 h-full border border-gray-300 rounded-xl text-[#374151] font-medium cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
                             >
                                 Limpar Campos
