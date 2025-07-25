@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 
 export function Navbar() {
@@ -17,6 +18,9 @@ export function Navbar() {
         if (!pesquisa.trim()) return;
         router.push(`/pesquisaProdutos?pesquisa=${pesquisa.trim()}`);
     }
+
+    const session = useSession();
+    
 
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
@@ -82,7 +86,7 @@ export function Navbar() {
                 </li>
                 <li className="relative">
                     <Link 
-                        href="/checkout" 
+                        href={session.status === 'authenticated' ? '/checkout' : '/login'} 
                         className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5  rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
                     >
                         <span><CartIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/></span>
