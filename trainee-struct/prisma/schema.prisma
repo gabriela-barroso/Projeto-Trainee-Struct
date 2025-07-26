@@ -13,6 +13,11 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 model Post {
     id        Int      @id @default(autoincrement())
     name      String
@@ -59,6 +64,7 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    role          Role @default(USER)
     accounts      Account[]
     sessions      Session[]
     posts         Post[]
@@ -81,8 +87,9 @@ model Produto {
   id          Int      @id @default(autoincrement())
   nome        String
   preco       Float
-  descricao   String? // Optional field
-  imagem      String
+  descricao   String
+  especificacoes String? // Optional field
+  imagem      String @default("/imagens/sem_imagem.jpg")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

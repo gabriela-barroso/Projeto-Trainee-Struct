@@ -5,6 +5,7 @@ import { AuthProvider } from "./_components/authProvider";
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -26,6 +27,7 @@ export default function RootLayout({
         <AuthProvider>
         <TRPCReactProvider>{children}</TRPCReactProvider>
         </AuthProvider>
+        <Toaster/>
       </body>
     </html>
   );

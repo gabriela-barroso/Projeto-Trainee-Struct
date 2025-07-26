@@ -4,6 +4,12 @@ import GoogleProvider from "next-auth/providers/google";
 
 import { db } from "@/server/db";
 import { env } from "process";
+import type { Role } from "@prisma/client";
+import type { AdapterUser } from "next-auth/adapters";
+
+type UserWithRole = AdapterUser & {
+  role: Role,
+};
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -15,6 +21,7 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      role: Role;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -23,6 +30,7 @@ declare module "next-auth" {
   // interface User {
   //   // ...other properties
   //   // role: UserRole;
+  //   role: Role;
   // }
 }
 
@@ -49,12 +57,16 @@ export const authConfig = {
   ],
   adapter: PrismaAdapter(db),
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      const userWithRole = user as UserWithRole;
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: userWithRole.id,
+          role: userWithRole.role,
+        },
+      };
+    },
   },
 } satisfies NextAuthConfig;
