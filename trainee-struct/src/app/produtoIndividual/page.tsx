@@ -1,9 +1,18 @@
 import type { FC } from "react";
 import { ShoppingCart } from "lucide-react";
+import { Navbar } from "../_components/navbar";
 
 // Remove the incorrect import and use ProductCard directly
 export default function ProdutoIndividualPage() {
-  return <ProductCard />;
+  return(
+    <>
+    <header>
+      <Navbar/>
+    </header>
+
+    <ProductCard />;
+    </>
+  ); 
 }
 
 
@@ -16,25 +25,20 @@ const ProductCard: FC = () => {
 
         {/* Imagem */}
         <div className="flex-1 flex items-center justify-center p-8 bg-gradient-to-br from-purple-100 to-blue-100">
-          <div className="w-60 h-60 rounded-xl bg-gradient-to-br from-purple-200 to-blue-200 shadow-inner" />
+          <div className="w-60 h-60 rounded-xl bg-gradient-to-br from-purple-200 to-blue-200 shadow-inner" /> {/* COLOCAR IMAGEM AQUI */}
         </div>
 
         {/* Conteúdo */}
         <div className="flex-1 p-8 relative">
 
-          {/* Botão de favorito */}
-          <button className="absolute top-4 right-4 bg-white shadow-md p-2 rounded-full">
-            ❤️
-          </button>
-
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Caderno Fofo</h2>
-          <p className="text-xl font-semibold text-gray-900 mb-2">R$ 19,90</p>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Caderno Fofo</h2> {/* NOME AQUI */}
+          <p className="text-xl font-semibold text-gray-900 mb-2">R$ 19,90</p>    {/* PREÇO AQUI */}
           <p className="text-gray-600 mb-4">
-            Aqui vai a descricao do produto
+            Aqui vai a descricao do produto                                         {/* DESCRIÇÃO AQUI */}
           </p>
 
-          <p className="font-semibold text-gray-700 mb-1">Especificações:</p>
-          <p className="text-gray-800 mb-6">90 páginas; capa dura;</p>
+          <p className="font-semibold text-gray-700 mb-1">Especificações:</p>     {/* ESPECIFICAÇÕES AQUI */}
+          <p className="text-gray-800 mb-6">90 páginas; capa dura;</p>             
 
           {/* Botões */}
           <div className="space-y-3">
