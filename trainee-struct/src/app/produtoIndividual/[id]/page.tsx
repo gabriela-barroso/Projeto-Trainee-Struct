@@ -1,5 +1,6 @@
 'use client';
 
+
 import { useState, type FC } from "react";
 import { Edit, ShoppingCart } from "lucide-react";
 import { Navbar } from "../../_components/navbar";
@@ -9,6 +10,7 @@ import { EditIcon } from "@/app/_components/icons";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import EditProduto from "@/app/_components/editProduto";
+import { NotFound } from "../../_components/icons";
 
 // Remove the incorrect import and use ProductCard directly
 export default function ProdutoIndividualPage() {
@@ -21,7 +23,7 @@ export default function ProdutoIndividualPage() {
   const {data: produto, isLoading, refetch} = api.produto.getById.useQuery({id: idProduto});
 
   
-  if (isLoading || !produto || session.status === 'loading') {
+  if (isLoading || session.status === 'loading') {
     return(
       <>
         <header>
@@ -35,6 +37,26 @@ export default function ProdutoIndividualPage() {
     );
   }
 
+  if (!produto) {
+          return(
+              <>
+                  <header>
+                      <Navbar/>
+                  </header>
+  
+                  <main className="flex flex-col items-center bg-[#FFE0EE] min-h-screen px-1">
+                      <h1 className="text-2xl sm:text-3xl text-[#0F172A] font-bold mt-4 sm:mt-7 sm:mb-4">Catálogo de Produtos</h1>
+                      <p className="text-xs sm:text-base text-[#374151] mt-3 mb-5 px-5">Descubra nossa seleção premium de produtos de papelaria</p>
+  
+                      <div className="flex justify-center items-center gap-2 text-[#4B5563]">
+                          <NotFound className="w-10 h-10"/>
+                          <p className="text-lg font-bold">Nenhum produto encontrado</p>
+                      </div>
+                  </main>
+              </>
+          );
+      }
+
   const precoFormatado = produto.preco.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -47,7 +69,6 @@ export default function ProdutoIndividualPage() {
   };
 
   const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
-
 
   return(
     <>
