@@ -70,6 +70,7 @@ export default function PesquisaProdutos() {
                 {produtos.slice(0, cardsVisiveis).map((produto) => (
                     <CardProduto
                         key={produto.id}
+                        id={produto.id}
                         imagemURL={produto.imagem}
                         nome={produto.nome}
                         preco={produto.preco}
