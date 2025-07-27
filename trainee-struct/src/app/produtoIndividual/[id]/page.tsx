@@ -35,6 +35,7 @@ export default function ProdutoIndividualPage() {
   // Add to cart function
   const handleAddToCart = async (redirectToCheckout = false) => {
     if (session.status !== 'authenticated') {
+      toast.error('Usuario não autenticado');
       router.push('/login');
       return;
     }
@@ -56,7 +57,6 @@ export default function ProdutoIndividualPage() {
   };
 
   // Loading screen
-
   if (isLoading || session.status === 'loading') {
     return(
       <>
