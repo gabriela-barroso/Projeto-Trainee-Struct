@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
+import { adminProcedure, createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { db } from "@/server/db";
 import type { Produto } from "@prisma/client";
 
 export const produtoRouter = createTRPCRouter({
-    create: publicProcedure
+    create: adminProcedure
     .input(z.object({
         nome: z.string(),
         preco: z.number(),
@@ -24,7 +24,7 @@ export const produtoRouter = createTRPCRouter({
         });
     }),
 
-    delete: publicProcedure
+    delete: adminProcedure
     .input(z.object({
         id: z.number(),
     }))
@@ -36,7 +36,7 @@ export const produtoRouter = createTRPCRouter({
         })
     }),
 
-    update: publicProcedure
+    update: adminProcedure
     .input(z.object({
         id: z.number(),
         nome: z.string(),

@@ -52,11 +52,11 @@ export default function Admin() {
         if (session.status === 'loading') return;
 
         if (session.status === 'unauthenticated') {
-            router.push('/unauthorized');
+            router.replace('/unauthorized');
         }
 
         if (!session || session.data?.user.role !== 'ADMIN') {
-            router.push('/unauthorized');
+            router.replace('/unauthorized');
         }
 
     }, [session.status, session.data, router]);
