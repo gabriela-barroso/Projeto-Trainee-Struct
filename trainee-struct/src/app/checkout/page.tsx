@@ -1,10 +1,13 @@
 "use client"
-// Import the 'useState' hook from React. This lets us create and manage state in our component.
-import React, { useState } from 'react';
 
-// --- Reusable Icon Component ---
-// A small, reusable component for displaying SVG icons. This is great practice because
-// we don't have to repeat the same SVG code everywhere we need an icon.
+// ----------------------------------------------------------------
+// 2. Page Component: `/pages/checkout.tsx`
+// This page fetches data from the API route and displays the checkout.
+// ----------------------------------------------------------------
+import React, { useState, useEffect } from 'react';
+
+
+
 const Icon = ({ path, className = 'w-6 h-6', strokeWidth = 1.5 }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
@@ -18,9 +21,6 @@ const Icon = ({ path, className = 'w-6 h-6', strokeWidth = 1.5 }) => (
   </svg>
 );
 
-// --- Product Item Component ---
-// This component represents a single item in the shopping cart. It receives data and functions
-// as "props" from its parent component (CheckoutPageStatic).
 const ProductItem = ({ item, onUpdateQuantity, onRemove }) => (
   <div className="flex items-center justify-between bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
     {/* Left side: Image and Product Info */}
@@ -61,57 +61,90 @@ const ProductItem = ({ item, onUpdateQuantity, onRemove }) => (
 );
 
 
-// --- Main Checkout Page Component ---
-export default function CheckoutPageStatic() {
-  // --- State Management ---
-  // 'useState' is a hook that creates a "state variable".
-  // 'items' is our list of products in the cart.
-  // 'setItems' is the *only* function we should use to update the list.
-  // The initial value is an array of two product objects.
-  const [items, setItems] = useState([
-    { id: 1, name: 'Caneta Rosa', price: 10.00, quantity: 1, image: 'https://placehold.co/64x64/EAEAEA/333?text=Pen' },
-    { id: 2, name: 'Caderno Floral', price: 15.00, quantity: 2, image: 'https://placehold.co/64x64/EAEAEA/333?text=Notebook' },
-  ]);
 
-  // --- Event Handlers ---
-  // A function to update the quantity of a specific item.
-  const handleUpdateQuantity = (id: number, newQuantity: number) => {
-    // We only update if the new quantity is 1 or more.
-    if (newQuantity > 0) {
-      // We create a *new* array by mapping over the old one.
-      // This is important in React - never change state directly!
-      const updatedItems = items.map(item => 
-        // If the item's id matches the one we want to update...
-        item.id === id 
-          // ...return a new object with the updated quantity.
-          ? { ...item, quantity: newQuantity } 
-          // ...otherwise, return the item as it was.
-          : item
-      );
-      // We use our 'setItems' function to replace the old list with the new one.
-      setItems(updatedItems);
+export default function CheckoutPageWithDB() {
+    // State for cart data, loading, and errors
+    const [cart, setCart] = useState<{ items: CartItem[], subtotal: number, total: number }>({ items: [], subtotal: 0, total: 0 });
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    // Function to fetch cart data from our API
+    const fetchCart = async () => {
+        setIsLoading(true);
+        setError(null);
+
+        
+        try {
+            // In a real app, this would be '/api/cart/get'
+            
+            const response = await fetch('/api/cart/get');
+             if (!response.ok) {
+                 const errorData = await response.json();
+                 throw new Error(errorData.message || 'Failed to fetch cart');
+             }
+             const data = await response.json();
+            
+
+
+            setCart(data);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    // Fetch data when the component mounts
+    useEffect(() => {
+        fetchCart();
+    }, []);
+
+// Utiliza a remove e update no db para o carrinho
+    const handleUpdateQuantity = async (productId: number, newQuantity: number) => {
+        try {
+            const response = await fetch('/api/cart/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    produtoId: productId, 
+                    quantidade: newQuantity 
+                }),
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to update quantity");
+            }
+            // Refresh the cart data from the server to ensure consistency
+            await fetchCart();
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+
+    const handleRemoveItem = async (productId: number) => {
+        try {
+            const response = await fetch('/api/cart/delete', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ produtoId: productId }),
+            });
+             if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to remove item");
+            }
+            // Refresh the cart data from the server
+            await fetchCart();
+        } catch (err: any) {
+            setError(err.message);
+        }
+    };
+
+    if (error) {
+        return <div className="text-red-500 text-center p-8">{error}</div>;
     }
-  };
-
-  // A function to remove an item from the cart.
-  const handleRemoveItem = (id:number) => {
-    // We create a new array by filtering out the item we want to remove.
-    const updatedItems = items.filter(item => item.id !== id);
-    // And again, we use our 'setItems' function to update the state.
-    setItems(updatedItems);
-  };
-
-  // --- Calculations ---
-  // We calculate the subtotal by "reducing" the items array.
-  // It starts at 0, and for each item, it adds (price * quantity) to the sum.
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const total = subtotal; // For now, the total is the same as the subtotal.
-
-  // --- Rendered JSX ---
-  // This is what the component will actually render to the screen.
-  // It uses HTML-like syntax and Tailwind CSS classes for styling.
-  return (
-    <div className="bg-gray-800 min-h-screen  flex justify-center items-top font-sans">
+    
+    return (
+    <div className="bg-gray-800 flex items-center font-sans">
       <div className="w-full bg-[#F0F8FF] rounded-lg shadow-2xl overflow-hidden">
         {/* Header Section */}
         <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
@@ -122,48 +155,48 @@ export default function CheckoutPageStatic() {
             <div className="flex items-center gap-2">
                 <h1 className="text-lg font-bold text-gray-800">Carrinho</h1>
                 <span className="flex items-center justify-center w-6 h-6 text-xs font-bold text-blue-800 bg-blue-200 rounded-full">
-                    {items.length}
+                    {cart.items.length}
                 </span>
             </div>
         </header>
 
-        {/* Main Content Section */}
-        <main className="p-6 sm:p-8 bg-[#FFE0EE]">
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-800">Seus Produtos</h2>
-            {/* We map over the 'items' array. For each item, we render a ProductItem component. */}
-            <div className="space-y-4">
-              {items.map(item => (
-                <ProductItem
-                  key={item.id} // The 'key' is a special prop React needs for lists.
-                  item={item} // Pass the entire item object down.
-                  onUpdateQuantity={handleUpdateQuantity} // Pass the update function down.
-                  onRemove={handleRemoveItem} // Pass the remove function down.
-                />
-              ))}
-            </div>
-
-            {/* Order Summary Section */}
-            <div className="bg-gray-100 p-6 rounded-lg border border-gray-200">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Resumo do Pedido</h2>
-              <div className="space-y-3">
-                <div className="flex justify-between text-gray-600">
-                  <span>Subtotal ({items.length} itens)</span>
-                  <span>R$ {subtotal.toFixed(2)}</span>
-                </div>
-                <div className="border-t border-gray-200 my-2"></div>
-                <div className="flex justify-between font-bold text-xl text-gray-800">
-                  <span>Total</span>
-                  <span>R$ {total.toFixed(2)}</span>
-                </div>
-              </div>
-              <button className="w-full mt-6 py-3 text-white font-bold rounded-lg bg-gradient-to-r from-purple-400 to-blue-400 hover:opacity-90 shadow-lg">
-                Finalizar Compra
-              </button>
-            </div>
+            <main className="p-6 sm:p-8 bg-[#FFE0EE]">
+                {isLoading ? (
+                     <div className="text-center py-10">Loading cart...</div>
+                ) : (
+                    <div className="space-y-6">
+                        <h2 className="text-xl font-semibold text-gray-800">Seus Produtos</h2>
+                        <div className="space-y-4">
+                        {cart.items.map(item => (
+                            <ProductItem
+                            key={item.id}
+                            item={item}
+                            onUpdateQuantity={handleUpdateQuantity}
+                            onRemove={handleRemoveItem}
+                            />
+                        ))}
+                        </div>
+                        <div className="bg-gray-100 p-6 rounded-lg border border-gray-200">
+                        <h2 className="text-lg font-semibold text-gray-800 mb-4">Resumo do Pedido</h2>
+                        <div className="space-y-3">
+                            <div className="flex justify-between text-gray-600">
+                            <span>Subtotal ({cart.items.length} itens)</span>
+                            <span>R$ {cart.subtotal.toFixed(2)}</span>
+                            </div>
+                            <div className="border-t border-gray-200 my-2"></div>
+                            <div className="flex justify-between font-bold text-xl text-gray-800">
+                            <span>Total</span>
+                            <span>R$ {cart.total.toFixed(2)}</span>
+                            </div>
+                        </div>
+                        <button className="w-full mt-6 py-3 text-white font-bold rounded-lg bg-gradient-to-r from-purple-400 to-blue-400 hover:opacity-90 shadow-lg">
+                            Finalizar Compra
+                        </button>
+                        </div>
+                    </div>
+                )}
+            </main>
           </div>
-        </main>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
