@@ -11,9 +11,11 @@ import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import EditProduto from "@/app/_components/editProduto";
 import { NotFound } from "../../_components/icons";
+import { useRouter } from 'next/navigation';
 
 // Remove the incorrect import and use ProductCard directly
 export default function ProdutoIndividualPage() {
+  const router = useRouter();
   const params = useParams();
   const session = useSession();
   const [showEditModal, setShowEditModal] = useState(false);
@@ -21,8 +23,40 @@ export default function ProdutoIndividualPage() {
   const idProduto = Number(params.id);
 
   const {data: produto, isLoading, refetch} = api.produto.getById.useQuery({id: idProduto});
+  const addToCartMutation = api.cart.addItem.useMutation();
 
-  
+
+  const handleUpdate = () => {
+    setShowEditModal(false);
+    refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
+    toast.success('Produto adicionado com sucesso!');
+  };
+
+  // Add to cart function
+  const handleAddToCart = async (redirectToCheckout = false) => {
+    if (session.status !== 'authenticated') {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      await addToCartMutation.mutateAsync({
+        produtoId: idProduto,
+        quantidade: 1,
+      });
+      
+      toast.success('Produto adicionado ao carrinho!');
+      
+      if (redirectToCheckout) {
+        router.push('/checkout');
+      }
+    } catch (error) {
+      toast.error('Erro ao adicionar produto ao carrinho');
+    }
+  };
+
+  // Loading screen
+
   if (isLoading || session.status === 'loading') {
     return(
       <>
@@ -37,6 +71,7 @@ export default function ProdutoIndividualPage() {
     );
   }
 
+  // No product found for this id
   if (!produto) {
           return(
               <>
@@ -57,18 +92,13 @@ export default function ProdutoIndividualPage() {
           );
       }
 
+  
+  const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
+
   const precoFormatado = produto.preco.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
-  const handleUpdate = () => {
-    setShowEditModal(false);
-    refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
-    toast.success('Produto adicionado com sucesso!');
-  };
-
-  const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
 
   return(
     <>
@@ -120,15 +150,21 @@ export default function ProdutoIndividualPage() {
           </div>
 
           {/* Botões */}
-          <div className="space-y-3">
-            <button className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-400 to-blue-300 text-white font-medium py-2 rounded-xl shadow hover:opacity-90 cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">
-              <ShoppingCart className="w-5 h-5" />
-              Adicionar ao Carrinho
-            </button>
-            <button className="w-full bg-gradient-to-r from-purple-400 to-blue-300 text-white font-medium py-2 rounded-xl shadow hover:opacity-90 cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">
-              Comprar Agora
-            </button>
-          </div>
+            <div className="space-y-3">
+              <button 
+                onClick={() => handleAddToCart(false)}
+                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-400 to-blue-300 text-white font-medium py-2 rounded-xl shadow hover:opacity-90 cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                Adicionar ao Carrinho
+              </button>
+              <button 
+                onClick={() => handleAddToCart(true)}
+                className="w-full bg-gradient-to-r from-purple-400 to-blue-300 text-white font-medium py-2 rounded-xl shadow hover:opacity-90 cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out"
+              >
+                Comprar Agora
+              </button>
+            </div>
         </div>
       </div>
 

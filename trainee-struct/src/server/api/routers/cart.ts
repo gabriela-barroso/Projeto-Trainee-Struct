@@ -13,6 +13,11 @@ const updateCartItemSchema = z.object({
   quantidade: z.number().min(1, { message: "Quantity must be at least 1" }),
 });
 
+const addCartItemSchema = z.object({
+  produtoId: z.number(),
+  quantidade: z.number().optional().default(1),
+});
+
 export const cartRouter = createTRPCRouter({
 
 // Remove itens from cart
@@ -91,6 +96,57 @@ export const cartRouter = createTRPCRouter({
 
       return { message: 'Cart item quantity updated successfully' };
     }),
+  
+  // Add items to cart
+  addItem: protectedProcedure
+  .input(addCartItemSchema)
+  .mutation(async ({ ctx, input }) => {
+    const { produtoId, quantidade } = input;
+    const userId = ctx.session.user.id;
+
+    // Check if product exists
+    const product = await db.produto.findUnique({
+      where: { id: produtoId },
+    });
+
+    if (!product) {
+      throw new TRPCError({
+        code: 'NOT_FOUND',
+        message: 'Product not found',
+      });
+    }
+
+    // Check if item already exists in cart
+    const existingCartItem = await db.carrinho.findFirst({
+      where: {
+        usuarioId: userId,
+        produtoId: produtoId,
+      },
+    });
+
+    if (existingCartItem) {
+      // If exists, increment quantity
+      await db.carrinho.update({
+        where: {
+          id: existingCartItem.id,
+        },
+        data: {
+          quantidade: existingCartItem.quantidade + quantidade,
+        },
+      });
+    } else {
+      // If not exists, create new cart item
+      await db.carrinho.create({
+        data: {
+          usuarioId: userId,
+          produtoId: produtoId,
+          quantidade: quantidade,
+        },
+      });
+    }
+
+    return { success: true };
+  }),
 
   // Get cart items 
   getCart: protectedProcedure 
