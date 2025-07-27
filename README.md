@@ -4,6 +4,10 @@
 
 2 - Entrar na pasta 'trainee-struct'
 
+```
+cd ~\trainee-struct
+```
+
 3 - Executar o comando no terminal( esse comando instala as dependências)
 
   ```
