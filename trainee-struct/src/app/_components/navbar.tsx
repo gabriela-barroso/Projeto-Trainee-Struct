@@ -3,7 +3,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 
 export function Navbar() {
@@ -21,6 +22,10 @@ export function Navbar() {
 
     const session = useSession();
     
+    const isAuthenticated = session.status === "authenticated";
+    const userRole = session.data?.user?.role;
+    const conta = isAuthenticated
+        ? userRole === "ADMIN" ? "/admin" : "/usuario" : "/login";
 
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
@@ -75,14 +80,44 @@ export function Navbar() {
                         Produtos
                     </Link>
                 </li>
-                <li className="">
-                    <Link 
-                        href="/login" 
-                        className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
-                    >
+
+                <li className="relative">
+                    {!isAuthenticated?(
+                        <Link href= "/login" className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out">
                         <span><UserIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/></span>
                         Login
-                    </Link>
+                        </Link>
+
+                    ) : (
+                        <>
+                            <button
+                                onClick={() => setMenuOpen(!menuOpen)} 
+                                className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
+                            >
+                            <UserIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/>
+                            Minha Conta
+                            </button>
+                            {menuOpen && (
+                                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 z-50">
+                                    <Link href="/usuario" className="block px-4 py-2 text-[15px] text-inter text-[#5A5C8F] hover:bg-[#DCCAFF] text-center">
+                                        Meu Perfil
+                                    </Link>
+
+                                    <button
+                                        onClick={() => signOut()}
+                                        className="block w-full px-4 py-2 text-[15px] text-[#EF4444] hover:bg-[#DCCAFF] text-center"
+                                    >
+                                        Sair
+                                    </button>
+                                </div>
+                        )}
+                        
+
+                        </>
+                    )}
+
+                    
+
                 </li>
                 <li className="relative">
                     <Link 
@@ -108,13 +143,41 @@ export function Navbar() {
                                 Produtos
                             </Link>
                         </li>
-                        <li>
-                            <Link 
-                                href="/login" 
-                                className="text-[#5A5C8F] font-bold hover:text-[#696a9a]"
-                            >
+                        <li className="relative">
+                            {!isAuthenticated?(
+                                <Link href= "/login" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">
                                 Login
-                            </Link>
+                                </Link>
+
+                            ) : (
+                                <>
+                                    <button
+                                        onClick={() => setMenuOpen(!menuOpen)} 
+                                        className="text-[#5A5C8F] font-bold hover:text-[#696a9a]"
+                                    >
+                                    Minha Conta
+                                    </button>
+                                    {menuOpen && (
+                                        <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 z-50">
+                                            <Link href="/usuario" className="block px-4 py-2 text-[15px] text-inter text-[#5A5C8F] hover:bg-[#DCCAFF] text-center">
+                                                Meu Perfil
+                                            </Link>
+
+                                            <button
+                                                onClick={() => signOut()}
+                                                className="block w-full px-4 py-2 text-[15px] text-[#EF4444] hover:bg-[#DCCAFF] text-center"
+                                            >
+                                                Sair
+                                            </button>
+                                        </div>
+                                )}
+                                
+
+                                </>
+                            )}
+
+                            
+
                         </li>
                         <li>
                             <Link 
