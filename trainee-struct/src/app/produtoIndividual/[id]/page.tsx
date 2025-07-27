@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import EditProduto from "@/app/_components/editProduto";
 import { NotFound } from "../../_components/icons";
 import { useRouter } from 'next/navigation';
+import DetalheProduto from "@/app/_components/detalheProduto";
 
 // Remove the incorrect import and use ProductCard directly
 export default function ProdutoIndividualPage() {
@@ -19,6 +20,8 @@ export default function ProdutoIndividualPage() {
   const params = useParams();
   const session = useSession();
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showDescricaoModal, setShowDescricaoModal] = useState(false);
+  const [showEspecificacoesModal, setShowEspecificacoesModal] = useState(false);
   
   const idProduto = Number(params.id);
 
@@ -136,17 +139,21 @@ export default function ProdutoIndividualPage() {
           <p className="text-xl font-semibold text-gray-900">
             R$ {precoFormatado}
           </p>
-          <p className="text-gray-600 break-all line-clamp-3">
+          <button 
+            onClick={() => {setShowDescricaoModal(true)}}
+            className="text-gray-800 break-all line-clamp-3 cursor-pointer hover:text-gray-500">
             {produto.descricao}
-          </p>
+          </button>
 
           <div>
             <p className="font-semibold text-gray-700">
               Especificações:
             </p>
-            <p className="text-gray-800 mb-6 break-all line-clamp-3">
+            <button 
+              onClick={() => {setShowEspecificacoesModal(true)}}
+              className="text-gray-800 mb-6 break-all line-clamp-3 cursor-pointer hover:text-gray-500">
               {produto.especificacoes}
-            </p>
+            </button>
           </div>
 
           {/* Botões */}
@@ -179,6 +186,20 @@ export default function ProdutoIndividualPage() {
           descricao={produto.descricao}
           especificacoes={especificacoesAux}
         />
+      )}
+
+      {showDescricaoModal && (
+        <DetalheProduto onClose={() => {setShowDescricaoModal(false)}}>
+          <h1 className="font-bold">Descrição:</h1>
+          <p className="break-all">{produto.descricao}</p>
+        </DetalheProduto>
+      )}
+
+      {showEspecificacoesModal && (
+        <DetalheProduto onClose={() => {setShowEspecificacoesModal(false)}}>
+          <h1 className="font-bold">Especificacoes:</h1>
+          <p className="break-all">{produto.especificacoes}</p>
+        </DetalheProduto>
       )}
     </main>
     </>
