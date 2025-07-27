@@ -83,4 +83,18 @@ export const produtoRouter = createTRPCRouter({
         return produtos;
     }),
 
+    getById: publicProcedure
+    .input(z.object({
+        id: z.number(),
+    }))
+    .query(async ({input, ctx}) => {
+        const produto = await ctx.db.produto.findUnique({
+            where: {
+                id: input.id,
+            },
+        })
+
+        return produto;
+    })
+
 });
