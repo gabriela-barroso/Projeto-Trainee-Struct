@@ -29,7 +29,7 @@ export default function ProdutoIndividualPage() {
   const handleUpdate = () => {
     setShowEditModal(false);
     refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
-    toast.success('Produto adicionado com sucesso!');
+    toast.success('Produto atualizado com sucesso!');
   };
 
   // Add to cart function

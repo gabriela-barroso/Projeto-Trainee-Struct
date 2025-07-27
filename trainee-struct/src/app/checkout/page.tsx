@@ -133,7 +133,7 @@ export default function CheckoutPage() {
           </div>
         </header>
 
-        <main className="p-6 sm:p-8 bg-[#FFE0EE]">
+        <main className="p-6 sm:p-8 bg-[#FFE0EE] min-h-screen">
           {isLoading ? (
             <div className="text-center py-10">Loading cart...</div>
           ) : (
