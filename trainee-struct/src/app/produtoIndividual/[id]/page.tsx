@@ -2,7 +2,7 @@
 
 
 import { useState, type FC } from "react";
-import { Edit, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Navbar } from "../../_components/navbar";
 import { useParams } from "next/navigation";
 import { api } from "@/trpc/react";
@@ -65,7 +65,7 @@ export default function ProdutoIndividualPage() {
   const handleUpdate = () => {
     setShowEditModal(false);
     refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
-    toast.success('Produto adicionado com sucesso!');
+    toast.success('Produto atualizado com sucesso!');
   };
 
   const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
