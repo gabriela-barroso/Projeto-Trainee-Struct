@@ -26,12 +26,12 @@ export const produtoRouter = createTRPCRouter({
 
     delete: publicProcedure
     .input(z.object({
-        idProduto: z.number(),
+        id: z.number(),
     }))
     .mutation(async ({input, ctx}) => {
         await ctx.db.produto.delete({
             where: {
-                id: input.idProduto
+                id: input.id
             }
         })
     }),

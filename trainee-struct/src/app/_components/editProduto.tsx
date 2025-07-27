@@ -3,6 +3,9 @@
 import { api } from "@/trpc/react";
 import { useState } from "react";
 import { XIcon } from "./icons";
+import DeleteProduto from "./deleteProduto";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
     onConfirm: () => void;
@@ -24,7 +27,9 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
     const [descricaoProduto, setDescricaoProduto] = useState(descricao);
     const [especificacaoProduto, setEspecificacaoProduto] = useState(especificacoes);
 
-    const update = api.produto.update.useMutation({
+    const router = useRouter();
+
+    const updateProduto = api.produto.update.useMutation({
         onSuccess: () => {
             onConfirm();
         },
@@ -32,7 +37,7 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
 
     const handleSubmit = () => {
         if (!nomeProduto || !valorProduto || !descricaoProduto) return;
-        update.mutate({
+        updateProduto.mutate({
             id: id,
             nome: nomeProduto,
             preco: valorProduto,
@@ -40,6 +45,12 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
             descricao: descricaoProduto,
             especificacoes: especificacaoProduto,
         })
+    }
+
+    const handleDelete = () => {
+        setShowDeleteModal(false);
+        router.replace('/produtos');
+        toast.success('Produto deletado com sucesso!');
     }
 
     return(
@@ -148,6 +159,14 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
                 </form>
             </div>
             
+            {showDeleteModal && (
+                <DeleteProduto
+                    onConfirm={() => {handleDelete()}}
+                    onClose={() => {setShowDeleteModal(false)}}
+                    id={id}
+                    nome={nome}
+                />
+            )}
         </div>
     );
 }

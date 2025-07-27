@@ -43,7 +43,7 @@ export default function ProdutoIndividualPage() {
   const handleUpdate = () => {
     setShowEditModal(false);
     refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
-    toast.success('Produto adicionado!');
+    toast.success('Produto adicionado com sucesso!');
   };
 
   const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
