@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
 import { useRouter } from "next/navigation";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 
 
@@ -23,9 +23,6 @@ export function Navbar() {
     const session = useSession();
     
     const isAuthenticated = session.status === "authenticated";
-    const userRole = session.data?.user?.role;
-    const conta = isAuthenticated
-        ? userRole === "ADMIN" ? "/admin" : "/usuario" : "/login";
 
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
