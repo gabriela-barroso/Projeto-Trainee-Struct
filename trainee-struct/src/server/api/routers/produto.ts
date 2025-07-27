@@ -38,7 +38,7 @@ export const produtoRouter = createTRPCRouter({
 
     update: publicProcedure
     .input(z.object({
-        idProduto: z.number(),
+        id: z.number(),
         nome: z.string(),
         preco: z.number(),
         imagem: z.string().optional(),
@@ -48,7 +48,7 @@ export const produtoRouter = createTRPCRouter({
     .mutation(async ({input, ctx}) => {
         await ctx.db.produto.update({
             where: {
-                id: input.idProduto
+                id: input.id
             },
             data: {
                 nome: input.nome,
