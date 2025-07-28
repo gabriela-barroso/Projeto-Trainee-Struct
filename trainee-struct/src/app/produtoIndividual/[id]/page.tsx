@@ -103,13 +103,6 @@ export default function ProdutoIndividualPage() {
     maximumFractionDigits: 2,
   });
 
-  const handleUpdate = () => {
-    setShowEditModal(false);
-    refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
-    toast.success('Produto atualizado com sucesso!');
-  };
-
-  const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
   return(
     <>
     <header>
