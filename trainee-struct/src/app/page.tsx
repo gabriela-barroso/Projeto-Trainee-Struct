@@ -84,9 +84,10 @@ export default function HomePage() {
                       Produtos em Destaque
                   </h2>
                   <div className="flex items-center justify-center gap-3 sm:gap-10 w-full max-w-[1000px] mb-5 flex-wrap pb-15">
-                      {produtos.slice(0, 3).map((produto: { id: Key | null | undefined; imagem: string; nome: string; preco: number; }) => (
+                      {produtos.slice(0, 3).map((produto: { id: number; imagem: string; nome: string; preco: number; }) => (
                           <CardProduto
                               key={produto.id}
+                              id={produto.id}
                               imagemURL={produto.imagem}
                               nome={produto.nome}
                               preco={produto.preco}
