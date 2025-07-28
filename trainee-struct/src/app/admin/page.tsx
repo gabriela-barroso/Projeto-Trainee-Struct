@@ -14,6 +14,8 @@ export default function Admin() {
     const [imagemProduto, setImagemProduto] = useState('');
     const [descricaoProduto, setDescricaoProduto] = useState('');
     const [especificacaoProduto, setEspecificacaoProduto] = useState('');
+    const session = useSession();
+    const router = useRouter();
 
     const reset = () => {
         setNomeProduto('');
@@ -44,19 +46,17 @@ export default function Admin() {
             especificacoes: especificacaoProduto || undefined,
         });
     };
-    const session = useSession();
-    const router = useRouter();
     // console.log(session.data)
 
     useEffect(() => {
         if (session.status === 'loading') return;
 
         if (session.status === 'unauthenticated') {
-            router.push('/unauthorized');
+            router.replace('/unauthorized');
         }
 
         if (!session || session.data?.user.role !== 'ADMIN') {
-            router.push('/unauthorized');
+            router.replace('/unauthorized');
         }
 
     }, [session.status, session.data, router]);
