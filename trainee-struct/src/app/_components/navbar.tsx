@@ -41,9 +41,6 @@ export function Navbar() {
         router.push(`/pesquisaProdutos?pesquisa=${pesquisa.trim()}`);
     }
 
-    
-    const isAuthenticated = session.status === "authenticated";
-
 
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
