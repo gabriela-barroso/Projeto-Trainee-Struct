@@ -131,3 +131,13 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  if (ctx.session?.user?.role !== "ADMIN") {
+    throw new TRPCError({ 
+      code: "UNAUTHORIZED",
+      message: "Você não tem permissão para realizar esta ação!"
+    });
+  }
+  return next();
+});
