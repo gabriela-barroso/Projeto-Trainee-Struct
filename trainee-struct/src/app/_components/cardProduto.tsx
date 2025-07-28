@@ -3,13 +3,12 @@
 import Link from "next/link";
 
 type Props = {
-    id: number,
     imagemURL: string;
     nome: string;
     preco: number;
 }
 
-export function CardProduto({id, imagemURL, nome, preco} : Props) {
+export function CardProduto({imagemURL, nome, preco} : Props) {
 
     const precoFormatado = preco.toLocaleString("pt-BR", {
         minimumFractionDigits: 2,
@@ -18,7 +17,7 @@ export function CardProduto({id, imagemURL, nome, preco} : Props) {
 
     return(
         <div className="flex flex-col items-center gap-3 bg-white w-[150px] sm:w-[250px] lg:w-[300px] h-[270px] sm:h-[390px] lg:h-[440px] rounded-lg shadow">
-            <Link href={`/produtoIndividual/${id}`} className="w-full">  {/* Fazer lógica de levar para página de descrição do produto aqui */}
+            <Link href='#' className="w-full">  {/* Fazer lógica de levar para página de descrição do produto aqui */}
                 <div className="w-full aspect-square overflow-hidden">
                     <img
                         src={imagemURL}

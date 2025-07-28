@@ -26,19 +26,19 @@ export const produtoRouter = createTRPCRouter({
 
     delete: publicProcedure
     .input(z.object({
-        id: z.number(),
+        idProduto: z.number(),
     }))
     .mutation(async ({input, ctx}) => {
         await ctx.db.produto.delete({
             where: {
-                id: input.id
+                id: input.idProduto
             }
         })
     }),
 
     update: publicProcedure
     .input(z.object({
-        id: z.number(),
+        idProduto: z.number(),
         nome: z.string(),
         preco: z.number(),
         imagem: z.string().optional(),
@@ -48,7 +48,7 @@ export const produtoRouter = createTRPCRouter({
     .mutation(async ({input, ctx}) => {
         await ctx.db.produto.update({
             where: {
-                id: input.id
+                id: input.idProduto
             },
             data: {
                 nome: input.nome,
@@ -82,19 +82,5 @@ export const produtoRouter = createTRPCRouter({
 
         return produtos;
     }),
-
-    getById: publicProcedure
-    .input(z.object({
-        id: z.number(),
-    }))
-    .query(async ({input, ctx}) => {
-        const produto = await ctx.db.produto.findUnique({
-            where: {
-                id: input.id,
-            },
-        })
-
-        return produto;
-    })
 
 });
