@@ -14,6 +14,7 @@ type Props = {
 }
 
 
+
 export function CardProduto({id, imagemURL, nome, preco} : Props) {
 
     // Necessario para adicionar ao carrinho
@@ -43,6 +44,8 @@ export function CardProduto({id, imagemURL, nome, preco} : Props) {
         toast.error('Erro ao adicionar produto ao carrinho');
         }
     };
+
+export function CardProduto({id, imagemURL, nome, preco} : Props) {
 
     const precoFormatado = preco.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,

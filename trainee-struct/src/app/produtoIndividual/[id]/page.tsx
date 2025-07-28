@@ -3,6 +3,7 @@
 
 import { useState, type FC } from "react";
 import { Edit, ShoppingCart } from "lucide-react";
+
 import { Navbar } from "../../_components/navbar";
 import { useParams } from "next/navigation";
 import { api } from "@/trpc/react";
@@ -22,10 +23,10 @@ export default function ProdutoIndividualPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDescricaoModal, setShowDescricaoModal] = useState(false);
   const [showEspecificacoesModal, setShowEspecificacoesModal] = useState(false);
-  
   const idProduto = Number(params.id);
 
   const {data: produto, isLoading, refetch} = api.produto.getById.useQuery({id: idProduto});
+
   const addToCartMutation = api.cart.addItem.useMutation();
 
 
@@ -60,6 +61,7 @@ export default function ProdutoIndividualPage() {
   };
 
   // Loading screen
+
   if (isLoading || session.status === 'loading') {
     return(
       <>
@@ -94,15 +96,20 @@ export default function ProdutoIndividualPage() {
               </>
           );
       }
-
   
   const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
-
   const precoFormatado = produto.preco.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
+  const handleUpdate = () => {
+    setShowEditModal(false);
+    refetch();  // necessário para recerregar os dados do produto assim que a edição é bem sucedida
+    toast.success('Produto atualizado com sucesso!');
+  };
+
+  const especificacoesAux = produto.especificacoes ? produto.especificacoes : undefined;  // Variável auxiliar necessária para ser enviada como parâmetro no componente de edição de produtos
   return(
     <>
     <header>
@@ -201,6 +208,7 @@ export default function ProdutoIndividualPage() {
           <p className="break-all">{produto.especificacoes}</p>
         </DetalheProduto>
       )}
+
     </main>
     </>
   ); 

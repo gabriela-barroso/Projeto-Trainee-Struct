@@ -304,6 +304,7 @@ export function XIcon({ className } : { className? : string }) {
       <path d="m6 6 12 12"/>
     </svg>
   );
+
 }
 
 
@@ -325,7 +326,6 @@ export function TrashIcon({ className } : { className? : string }) {
     </svg>
   );
 }
-
 
 export function PlusIcon({ className } : { className? : string }) {
   return(

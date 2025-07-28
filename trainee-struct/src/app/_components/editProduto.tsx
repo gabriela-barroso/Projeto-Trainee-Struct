@@ -25,6 +25,7 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
     const [valorProduto, setValorProduto] = useState(preco);
     const [imagemProduto, setImagemProduto] = useState((imagem === "/imagens/sem_imagem.jpg") ? "" : imagem);
     const [descricaoProduto, setDescricaoProduto] = useState(descricao);
+
     const [especificacaoProduto, setEspecificacaoProduto] = useState((!especificacoes) ? "" : especificacoes);
 
     const router = useRouter();
@@ -42,6 +43,7 @@ export default function EditProduto({onConfirm, onClose, id, nome, preco, imagem
             nome: nomeProduto,
             preco: valorProduto,
             imagem: (!imagemProduto) ? "/imagens/sem_imagem.jpg" : imagemProduto,
+
             descricao: descricaoProduto,
             especificacoes: especificacaoProduto,
         })
