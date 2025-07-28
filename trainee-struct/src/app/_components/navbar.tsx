@@ -24,6 +24,7 @@ export function Navbar() {
     
     const isAuthenticated = session.status === "authenticated";
 
+
     return (
         <nav className="relative flex flex-wrap justify-between items-center min-h-[70px] px-3 sm:px-4 md:px-6 shadow-sm">
             <Link 
@@ -64,6 +65,7 @@ export function Navbar() {
                 <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-300 ease-in-out"></span>
                 <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-150 ease-in-out"></span>
                 <span className="block w-full h-[3px] bg-[#DDA0DD] group-hover:bg-[#e184e1] transition-all duration-50 ease-in-out"></span>
+              
             </button>
 
 
@@ -140,41 +142,26 @@ export function Navbar() {
                                 Produtos
                             </Link>
                         </li>
-                        <li className="relative">
+                        <li>
                             {!isAuthenticated?(
-                                <Link href= "/login" className="text-[#5A5C8F] font-bold hover:text-[#696a9a]">
+                                <Link 
+                                    href="/login" 
+                                    className="text-[#5A5C8F] font-bold hover:text-[#696a9a]"
+                                >
                                 Login
                                 </Link>
-
                             ) : (
                                 <>
-                                    <button
-                                        onClick={() => setMenuOpen(!menuOpen)} 
-                                        className="text-[#5A5C8F] font-bold hover:text-[#696a9a]"
-                                    >
-                                    Minha Conta
-                                    </button>
-                                    {menuOpen && (
-                                        <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md py-2 z-50">
-                                            <Link href="/usuario" className="block px-4 py-2 text-[15px] text-inter text-[#5A5C8F] hover:bg-[#DCCAFF] text-center">
-                                                Meu Perfil
-                                            </Link>
-
-                                            <button
-                                                onClick={() => signOut()}
-                                                className="block w-full px-4 py-2 text-[15px] text-[#EF4444] hover:bg-[#DCCAFF] text-center"
-                                            >
-                                                Sair
-                                            </button>
-                                        </div>
-                                )}
-                                
-
+                                <Link 
+                                    href="/usuario" 
+                                    className="text-[#5A5C8F] font-bold hover:text-[#696a9a]"
+                                >
+                                Meu Perfil
+                                </Link>                               
                                 </>
-                            )}
 
-                            
-
+                            )                            
+                            }
                         </li>
                         <li>
                             <Link 
@@ -183,6 +170,21 @@ export function Navbar() {
                             >
                                 Carrinho
                             </Link>
+                        </li>
+                            {isAuthenticated &&(
+                                <button
+                                    onClick={() => signOut()} 
+                                    className="text-[#5A5C8F] font-bold hover:text-[#EF4444]"
+                                >
+                                Sair
+                                </button>   
+                            ) 
+
+                                                     
+                            }
+
+                        <li>
+
                         </li>
                     </ul>
                 </div>
