@@ -162,7 +162,7 @@ export default function Admin() {
                         <div className="flex gap-4 justify-between items-center w-full h-[35px] sm:h-[40px] mt-3">
                             <button 
                                 type="submit" 
-                                className="flex-1 h-full bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-white font-medium rounded-xl shadow-sm cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
+                                className="flex-1 h-full bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#374151] font-medium rounded-xl shadow-sm cursor-pointer hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
                             >
                                 Adicionar Produto
                             </button>
