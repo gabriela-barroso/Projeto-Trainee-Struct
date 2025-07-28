@@ -108,7 +108,7 @@ export function Navbar() {
                         <>
                             <button
                                 onClick={() => setMenuOpen(!menuOpen)} 
-                                className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out"
+                                className="flex justify-center items-center gap-1 bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] text-[#5A5C8F] text-xs lg:text-sm xl:text-base font-bold min-h-[40px] lg:min-h-[43px] xl:min-h-[45px] px-3 lg:px-4 xl:px-5 rounded-lg hover:text-[#696a9a] active:scale-[0.97] transition-transform duration-75 ease-in-out cursor-pointer"
                             >
                             <UserIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/>
                             Minha Conta
@@ -121,7 +121,7 @@ export function Navbar() {
 
                                     <button
                                         onClick={() => signOut()}
-                                        className="block w-full px-4 py-2 text-[15px] text-[#EF4444] hover:bg-[#DCCAFF] text-center"
+                                        className="block w-full px-4 py-2 text-[15px] text-[#EF4444] hover:bg-[#DCCAFF] text-center cursor-pointer"
                                     >
                                         Sair
                                     </button>
@@ -191,7 +191,7 @@ export function Navbar() {
                             {isAuthenticated &&(
                                 <button
                                     onClick={() => signOut()} 
-                                    className="text-[#5A5C8F] font-bold hover:text-[#EF4444]"
+                                    className="text-[#5A5C8F] font-bold hover:text-[#EF4444] cursor-pointer"
                                 >
                                 Sair
                                 </button>   

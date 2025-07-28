@@ -139,11 +139,16 @@ export default function ProdutoIndividualPage() {
           <p className="text-xl font-semibold text-gray-900">
             R$ {precoFormatado}
           </p>
-          <button 
-            onClick={() => {setShowDescricaoModal(true)}}
-            className="text-gray-800 break-all line-clamp-3 cursor-pointer hover:text-gray-500">
-            {produto.descricao}
-          </button>
+          <div>
+            <p className="font-semibold text-gray-700">
+              Descrição:
+            </p>
+            <button
+              onClick={() => {setShowDescricaoModal(true)}}
+              className="text-gray-800 break-all line-clamp-3 cursor-pointer  hover:text-gray-500">
+              {produto.descricao}
+            </button>
+          </div>
 
           <div>
             <p className="font-semibold text-gray-700">
