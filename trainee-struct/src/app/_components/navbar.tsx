@@ -4,11 +4,32 @@ import { useState } from "react";
 import { SearchIcon, UserIcon, CartIcon } from "./icons";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { api } from "@/trpc/react";
 
+// Define the type for a item in the cart
+interface CartItem {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+// Define the overall structure of the data returned by the getCart tRPC procedure
+interface CartData {
+  items: CartItem[];
+  subtotal: number;
+  total: number;
+}
 
 export function Navbar() {
-    const [countCarrinho, setCountCarrinho] = useState(0);
-    // Fazer lógica para incremento do contador do carrinho aqui
+    const session = useSession();
+    const isAuthenticated = session.status === 'authenticated';
+    
+    const { data: cart } = api.cart.getCart.useQuery<CartData>(undefined, {
+        enabled: isAuthenticated,
+    });
+    
 
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -19,7 +40,6 @@ export function Navbar() {
         router.push(`/pesquisaProdutos?pesquisa=${pesquisa.trim()}`);
     }
 
-    const session = useSession();
     
 
     return (
@@ -92,7 +112,7 @@ export function Navbar() {
                         <span><CartIcon className="w-4 h-4 lg:w-6 lg:h-6 text-[#5A5C8F]"/></span>
                         Carrinho
                     </Link>
-                    <span className="absolute -top-2 -right-3 w-6 h-6 lg:w-7 lg:h-7 flex justify-center items-center rounded-full bg-[#EF4444] text-[#5A5C8F] text-lg font-bold">{countCarrinho}</span>
+                    <span className="absolute -top-2 -right-3 w-6 h-6 lg:w-7 lg:h-7 flex justify-center items-center rounded-full bg-[#EF4444] text-[#5A5C8F] text-lg font-bold">{isAuthenticated ? cart?.items.length || 0 : 0}</span>
                 </li>
             </ul>
 

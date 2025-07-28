@@ -1,6 +1,10 @@
 'use client';
 
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { useSession } from "next-auth/react";
+import { api } from "@/trpc/react";
+import { toast } from "react-hot-toast";
 
 type Props = {
     id: number,
@@ -9,11 +13,43 @@ type Props = {
     preco: number;
 }
 
+
+
+export function CardProduto({id, imagemURL, nome, preco} : Props) {
+
+    // Necessario para adicionar ao carrinho
+    const router = useRouter();
+    const session = useSession();
+
+    const addToCartMutation = api.cart.addItem.useMutation();
+
+    // Add to cart function
+    const handleAddToCart = async () => {
+        if (session.status !== 'authenticated') {
+        toast.error('Usuario não autenticado');
+        router.push('/login');
+        return;
+        }
+
+        try {
+        await addToCartMutation.mutateAsync({
+            produtoId: id,
+            quantidade: 1,
+        });
+        
+        toast.success('Produto adicionado ao carrinho!');
+        router.push('/checkout');
+
+        } catch (error) {
+        toast.error('Erro ao adicionar produto ao carrinho');
+        }
+    };
+
 export function CardProduto({id, imagemURL, nome, preco} : Props) {
 
     const precoFormatado = preco.toLocaleString("pt-BR", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
     });
 
     return(
@@ -37,7 +73,8 @@ export function CardProduto({id, imagemURL, nome, preco} : Props) {
             </Link>
             
 
-            <button className="bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] w-full max-w-[120px] sm:max-w-[200px] lg:max-w-[250px] h-[35px] rounded-lg text-[#696a9a] text-sm sm:text-lg lg:text-xl font-bold cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">
+            <button onClick={() => handleAddToCart()}
+            className="bg-gradient-to-r from-[#DDA0DD] to-[#B8E6FF] w-full max-w-[120px] sm:max-w-[200px] lg:max-w-[250px] h-[35px] rounded-lg text-[#696a9a] text-sm sm:text-lg lg:text-xl font-bold cursor-pointer active:scale-[0.97] transition-transform duration-75 ease-in-out">
                 Comprar
             </button>
 
